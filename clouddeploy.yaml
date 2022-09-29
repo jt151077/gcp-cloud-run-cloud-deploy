@@ -1,0 +1,29 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: html-nginx-pipeline
+description: html-nginx application delivery pipeline
+serialPipeline:
+  stages:
+  - targetId: run-qsdev
+    profiles: [dev]
+  - targetId: run-qsprod
+    profiles: [prod]
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: run-qsdev
+description: Cloud Run development service
+run:
+  location: projects/PROJECT_ID/locations/PROJECT_REGION
+---
+  
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: run-qsprod
+description: Cloud Run production service
+run:
+  location: projects/PROJECT_ID/locations/PROJECT_REGION

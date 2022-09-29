@@ -1,0 +1,33 @@
+substitutions:
+  _REGION: "PROJECT_REGION"
+  _PROJECT: "PROJECT_ID"
+steps:
+  # Apply Cloud Deploy pipeline scaffolding
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args: 
+      [
+        "beta", "deploy", "apply",
+        "--file", "clouddeploy.yaml",
+        "--region", "$_REGION",
+        "--project", "$_PROJECT"
+      ]
+  # Build and tag using commit sha
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '.', '-t', '$_REGION-docker.pkg.dev/$_PROJECT/html-nginx/html-nginx:latest', '-f', 'Dockerfile']
+    dir: 'app'
+  # Push the container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_REGION-docker.pkg.dev/$_PROJECT/html-nginx/html-nginx:latest']
+  # Create release in Google Cloud Deploy
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args: 
+      [
+        "deploy", "releases", "create", "rel-$BUILD_ID",
+        "--delivery-pipeline", "html-nginx-pipeline",
+        "--region", "$_REGION",
+        "--images", "my-app-image=$_REGION-docker.pkg.dev/$_PROJECT/html-nginx/html-nginx:latest"
+      ]
+options:
+  logging: CLOUD_LOGGING_ONLY
