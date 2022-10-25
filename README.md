@@ -1,6 +1,9 @@
 # Cloud Run with Cloud Deploy
 Simple Cloud Run deployment pipeline using Terraform, CloudBuild, CloudDeploy, Artifact Registry and Cloud Run to deploy a simple web site from a docker container in GCP.
 
+Source for the Skaffold configuration: [https://cloud.google.com/deploy/docs/deploy-app-run](https://cloud.google.com/deploy/docs/deploy-app-run)
+
+
 
 ## Overall architecture
 
@@ -44,7 +47,7 @@ find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_REGION/your_project_re
 
 1. Run the following command at the root of the folder:
 ```shell 
-$ ./install.sh
+$ sudo ./install.sh
 $ terraform init
 $ terraform plan
 $ terraform apply
