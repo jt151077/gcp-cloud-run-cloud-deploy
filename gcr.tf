@@ -16,6 +16,10 @@
 
 
 resource "google_artifact_registry_repository" "repo" {
+  depends_on = [
+    google_project_service.gcp_services
+  ]
+
   provider      = google-beta
   project       = local.project_id
   location      = local.project_default_region
