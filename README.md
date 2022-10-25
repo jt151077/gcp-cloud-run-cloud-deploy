@@ -41,6 +41,8 @@ Source for the Skaffold configuration: [https://cloud.google.com/deploy/docs/dep
 find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_NMR/your_project_number/g' {} +
 find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_ID/your_project_id/g' {} +
 find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_REGION/your_project_region/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/IAP_EMAIL/your_iap_email/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/DOMAIN/your_domain/g' {} +
 ```
 
 ## Install
