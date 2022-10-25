@@ -16,15 +16,17 @@
 
 
 locals {
-  project_id             = var.project_id
-  project_number         = var.project_nmr
-  project_default_region = var.project_default_region
+  project_id              = var.project_id
+  project_number          = var.project_nmr
+  project_default_region  = var.project_default_region
+  iap_brand_support_email = var.iap_brand_support_email
   gcp_service_list = [
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
     "clouddeploy.googleapis.com",
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
+    "iap.googleapis.com",
     "run.googleapis.com",
     "storage.googleapis.com"
   ]
@@ -49,12 +51,12 @@ terraform {
 
     google = {
       source  = "hashicorp/google"
-      version = "= 4.14.0"
+      version = ">= 3.53"
     }
 
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = "= 4.14.0"
+      version = ">= 3.53"
     }
   }
 }
