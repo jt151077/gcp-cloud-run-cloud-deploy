@@ -47,7 +47,7 @@ find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_REGION/your_project_re
 
 1. Run the following command at the root of the folder:
 ```shell 
-$ ./install.sh
+$ sudo ./install.sh
 $ terraform init
 $ terraform plan
 $ terraform apply
