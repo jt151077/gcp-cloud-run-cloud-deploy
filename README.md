@@ -143,3 +143,4 @@ $ ./uninstall.sh
 ```
 
 > All resources will now be removed from your project
+> Note IAP brand cannot be deleted via Terraform
