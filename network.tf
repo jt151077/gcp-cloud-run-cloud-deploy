@@ -28,7 +28,7 @@ resource "google_compute_security_policy" "api-policy" {
 }
 
 
-resource "google_iap_brand" "my_project_brand" {
+resource "google_iap_brand" "project_brand" {
   support_email     = local.iap_brand_support_email
   application_title = "Cloud IAP protected Application"
   project           = local.project_id
@@ -37,10 +37,10 @@ resource "google_iap_brand" "my_project_brand" {
 resource "google_iap_client" "project_client" {
   depends_on = [
     google_project_service.gcp_services,
-    google_iap_brand.my_project_brand
+    google_iap_brand.project_brand
   ]
   display_name = "LB Client"
-  brand        = google_iap_brand.my_project_brand.name
+  brand        = google_iap_brand.project_brand.name
 }
 
 resource "google_iap_web_backend_service_iam_binding" "binding" {
