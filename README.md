@@ -2,6 +2,7 @@
 Simple Cloud Run deployment pipeline using Terraform, CloudBuild, CloudDeploy, Artifact Registry and Cloud Run to deploy a simple web site from a docker container in GCP.
 
 Source for the Skaffold configuration: [https://cloud.google.com/deploy/docs/deploy-app-run](https://cloud.google.com/deploy/docs/deploy-app-run)
+
 Source for HTTP(S) Load Balancer with Cloud Run: [https://cloud.google.com/load-balancing/docs/https/ext-http-lb-tf-module-examples#with_a_backend](https://cloud.google.com/load-balancing/docs/https/ext-http-lb-tf-module-examples#with_a_backend)
 
 
