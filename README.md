@@ -7,7 +7,7 @@ Source for the Skaffold configuration: [https://cloud.google.com/deploy/docs/dep
 
 ## Overall architecture
 
-![](imgs/12.png)
+![](imgs/13.png)
 
 
 ## Project structure
@@ -24,6 +24,7 @@ Source for the Skaffold configuration: [https://cloud.google.com/deploy/docs/dep
 ├── gcr.tf (managed artifact repository)
 ├── iam.tf (service accounts and roles)
 ├── install.sh (install script for gcp api using gcloud command)
+├── network.tf (LoadBalancer and IAP)
 ├── README.md
 ├── run-dev.yaml (cloud run service dev)
 ├── run-prod.yaml (cloud run service prod)
@@ -36,13 +37,13 @@ Source for the Skaffold configuration: [https://cloud.google.com/deploy/docs/dep
 
 ## Setup
 
-1. Find out your GCP project's id and number from the dashboard in the cloud console, and run the following commands in a terminal at the root of source code (replace `your_project_number`, `your_project_id` and `your_project_region` by the correct values):
+1. Find out your GCP project's id and number from the dashboard in the cloud console, and run the following commands in a terminal at the root of source code (replace `your_project_number`, `your_project_id` and `your_project_region` by the correct values). The `your_iap_email` needs be part of your organisation, and in this example is both the support email for the IAP brand and the user allowed to access the Cloud Run prod service. Create an A record under your Cloud DNS and use this as `your_domain`.
 ```shell
-find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_NMR/your_project_number/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_ID/your_project_id/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/PROJECT_REGION/your_project_region/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/IAP_EMAIL/your_iap_email/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/DOMAIN/your_domain/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/190578371855/your_project_number/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/cloud-run-deploy-iap-20221026/your_project_id/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/europe-west1/your_project_region/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/jeremy@jeremyto.altostrat.com/your_iap_email/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/cloudrun.jeremyto.demo.altostrat.com/your_domain/g' {} +
 ```
 
 ## Install
@@ -115,18 +116,15 @@ gcloud run services add-iam-policy-binding deploy-qs-dev --member="allUsers" --r
 ![](imgs/9.png)
 
 
-3. Run the following command at the root of the project
+3. From the `terraform apply` output, cope the `external_ip` address and set it as the IPv4 address on your DNS A record.
 
-```shell 
-gcloud run services add-iam-policy-binding deploy-qs-prod --member="allUsers" --role="roles/run.invoker" --project="<your_project_id>" --region="<your_project_region>"
-```
+4. Open an web borwser window and go to `your_domain`
 
-> This now allows unauthenticated access to the prod service
+![](imgs/14.png)
 
-![](imgs/10.png)
+5. After login in with your `your_iap_email`
 
-
-> Opening the production service URL in a browser, it should show the following:
+> it should show the following:
 
 ![](imgs/11.png)
 

@@ -16,6 +16,9 @@
 
 
 resource "google_compute_security_policy" "api-policy" {
+  depends_on = [
+    google_project_service.gcp_services
+  ]
   provider = google-beta
   name     = "api-policy"
   project  = local.project_id
@@ -27,8 +30,10 @@ resource "google_compute_security_policy" "api-policy" {
   }
 }
 
-
 resource "google_iap_brand" "project_brand" {
+  depends_on = [
+    google_project_service.gcp_services
+  ]
   support_email     = local.iap_brand_support_email
   application_title = "Cloud IAP protected Application"
   project           = local.project_id
