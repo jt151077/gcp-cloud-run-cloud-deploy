@@ -83,6 +83,7 @@ module "lb-http" {
     google_compute_security_policy.api-policy
   ]
 
+  # source https://github.com/terraform-google-modules/terraform-google-lb-http/tree/v6.3.0/modules/serverless_negs  
   source  = "GoogleCloudPlatform/lb-http/google//modules/serverless_negs"
   version = "~> 5.1"
   name    = "tf-cr-lb"
