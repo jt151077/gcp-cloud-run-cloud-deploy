@@ -61,6 +61,34 @@ resource "google_iap_web_backend_service_iam_binding" "binding" {
   ]
 }
 
+resource "google_cloud_run_service_iam_binding" "dev-binding" {
+  depends_on = [
+    google_project_service.gcp_services,
+    module.lb-http
+  ]
+  project  = local.project_id
+  location = local.project_default_region
+  service  = "deploy-qs-dev"
+  role     = "roles/run.invoker"
+  members = [
+    "allUsers",
+  ]
+}
+
+resource "google_cloud_run_service_iam_binding" "prod-binding" {
+  depends_on = [
+    google_project_service.gcp_services,
+    module.lb-http
+  ]
+  project  = local.project_id
+  location = local.project_default_region
+  service  = "deploy-qs-prod"
+  role     = "roles/run.invoker"
+  members = [
+    "allUsers",
+  ]
+}
+
 resource "google_compute_region_network_endpoint_group" "cloud_run_neg" {
   depends_on = [
     google_project_service.gcp_services
