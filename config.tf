@@ -20,6 +20,9 @@ locals {
   project_number          = var.project_nmr
   project_default_region  = var.project_default_region
   iap_brand_support_email = var.iap_brand_support_email
+  iap_authorised_users = [
+    "user:${local.iap_brand_support_email}",
+  ]
   gcp_service_list = [
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",

@@ -48,61 +48,6 @@ resource "google_iap_client" "project_client" {
   brand        = google_iap_brand.project_brand.name
 }
 
-resource "google_iap_web_backend_service_iam_binding" "binding" {
-  depends_on = [
-    google_project_service.gcp_services,
-    module.lb-http
-  ]
-  project             = local.project_id
-  web_backend_service = "tf-cr-lb-backend-default"
-  role                = "roles/iap.httpsResourceAccessor"
-  members = [
-    "user:${local.iap_brand_support_email}",
-  ]
-}
-
-resource "google_cloud_run_service_iam_binding" "dev-binding" {
-  depends_on = [
-    google_project_service.gcp_services,
-    module.lb-http
-  ]
-  project  = local.project_id
-  location = local.project_default_region
-  service  = "deploy-qs-dev"
-  role     = "roles/run.invoker"
-  members = [
-    "allUsers",
-  ]
-}
-
-resource "google_cloud_run_service_iam_binding" "prod-binding" {
-  depends_on = [
-    google_project_service.gcp_services,
-    module.lb-http
-  ]
-  project  = local.project_id
-  location = local.project_default_region
-  service  = "deploy-qs-prod"
-  role     = "roles/run.invoker"
-  members = [
-    "allUsers",
-  ]
-}
-
-resource "google_compute_region_network_endpoint_group" "cloud_run_neg" {
-  depends_on = [
-    google_project_service.gcp_services
-  ]
-
-  name                  = "cloud-run-neg"
-  network_endpoint_type = "SERVERLESS"
-  region                = local.project_default_region
-  project               = local.project_id
-  cloud_run {
-    service = "deploy-qs-prod"
-  }
-}
-
 module "lb-http" {
   depends_on = [
     google_project_service.gcp_services,
@@ -139,6 +84,7 @@ module "lb-http" {
         oauth2_client_id     = google_iap_client.project_client.client_id
         oauth2_client_secret = google_iap_client.project_client.secret
       }
+
       log_config = {
         enable      = false
         sample_rate = null
@@ -147,6 +93,6 @@ module "lb-http" {
   }
 }
 
-output "external_ip" {
+output "prod_external_ip" {
   value = module.lb-http.external_ip
 }
