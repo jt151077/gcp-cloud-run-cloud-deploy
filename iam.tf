@@ -26,6 +26,16 @@ resource "google_project_iam_member" "clouddeploy_releaser" {
   member  = "serviceAccount:${local.project_number}@cloudbuild.gserviceaccount.com"
 }
 
+resource "google_project_iam_member" "clouddbuild_jobrunner" {
+  depends_on = [
+    google_project_service.gcp_services
+  ]
+
+  project = local.project_id
+  role    = "roles/clouddeploy.jobRunner"
+  member  = "serviceAccount:${local.project_number}@cloudbuild.gserviceaccount.com"
+}
+
 resource "google_project_iam_member" "clouddeploy_jobrunner" {
   depends_on = [
     google_project_service.gcp_services
