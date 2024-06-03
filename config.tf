@@ -23,6 +23,7 @@ locals {
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
     "clouddeploy.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
     "run.googleapis.com",
@@ -39,7 +40,7 @@ resource "google_project_service" "gcp_services" {
 }
 
 terraform {
-  required_version = ">= 1.2.9"
+  required_version = ">= 1.7.4"
 
   backend "gcs" {
     bucket = "jeremy-wn0sbt9z-terraform-state"
