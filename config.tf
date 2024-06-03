@@ -41,6 +41,11 @@ resource "google_project_service" "gcp_services" {
 terraform {
   required_version = ">= 1.2.9"
 
+  backend "gcs" {
+    bucket = "jeremy-wn0sbt9z-terraform-state"
+    prefix = "terraform/state"
+  }
+
   required_providers {
     archive = {
       source  = "hashicorp/archive"
